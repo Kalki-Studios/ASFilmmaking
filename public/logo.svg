@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="transparent" />
+  <circle cx="200" cy="200" r="190" fill="#640912" />
+  <text x="200" y="212" font-family="'Times New Roman', Georgia, serif" fill="#ffffff" text-anchor="middle">
+    <tspan font-size="58">AS</tspan>
+    <tspan font-size="42">Filmmaking.in</tspan>
+  </text>
+</svg>

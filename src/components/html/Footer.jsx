@@ -5,7 +5,7 @@ export default function Footer() {
       <div className="container footer-inner">
         <div>
           <a href="#top" className="nav-logo">
-            <span className="nav-logo-badge">AS</span>
+            <img src="/logo.svg" alt="AS Filmmaking Logo" className="nav-logo-image" />
             <span className="nav-logo-text">
               <span style={{ color: 'var(--gold-bright)' }}>AS</span>Filmmaking
             </span>
