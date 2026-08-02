@@ -13,6 +13,7 @@ export default function DirectorCut() {
   const [idx, setIdx] = useState(0);
   const [take, setTake] = useState(1);
   const [clapActive, setClapActive] = useState(false);
+  const [hasTapped, setHasTapped] = useState(false);
   const clapperRef = useRef(null);
   const s = scenes[idx];
 
@@ -73,6 +74,7 @@ export default function DirectorCut() {
   const handleClap = () => {
     if (clapActive) return;
     setClapActive(true);
+    setHasTapped(true);
     playClapSound();
     // Spring back after clap
     setTimeout(() => setClapActive(false), 300);
@@ -156,7 +158,6 @@ export default function DirectorCut() {
               aria-label="Tap clapperboard to advance scene"
               style={{ '--clapper-glow': s.glow }}
             >
-              <span className="clapper-hint">TAP TO CUT</span>
               <div className="clapper-lid" style={{ transform: clapActive ? 'rotate(0deg)' : 'rotate(-13deg)' }}>
                 <div className="clapper-stripes" />
               </div>
@@ -166,6 +167,7 @@ export default function DirectorCut() {
                 <div className="clapper-row"><span>SHOT</span><b>{s.cat}</b></div>
                 <div className="clapper-row"><span>TAKE</span><b>{take}</b></div>
               </div>
+              <span className={`clapper-hint ${hasTapped ? 'fade-out' : ''}`}>TAP TO CUT</span>
             </button>
           </div>
         </div>

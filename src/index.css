@@ -534,9 +534,13 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
 }
 .clapper-hint{
   display:block;text-align:center;font-size:.68rem;letter-spacing:.15em;color:var(--gold-bright);
-  margin-bottom:1.5rem;animation:pulseHint 2.4s ease-in-out infinite;
+  margin-top:1.5rem; text-shadow: 0 0 10px rgba(201, 161, 91, 0.8);
+  animation:pulseHint 2.4s ease-in-out infinite; transition: opacity 0.4s ease;
 }
-@keyframes pulseHint{0%,100%{opacity:.5;}50%{opacity:1;}}
+.clapper-hint.fade-out {
+  opacity: 0; pointer-events: none; animation: none;
+}
+@keyframes pulseHint{0%,100%{opacity:.6;}50%{opacity:1;}}
 .clapper-lid{
   height:clamp(30px,5.5vw,42px);background:var(--void);border-radius:6px 6px 2px 2px;
   transform-origin:bottom left;overflow:hidden;
@@ -1180,11 +1184,12 @@ footer::before {
   .panel-info .tag{font-size:.62rem;padding:.22rem .7rem;}
   .panel-info h3{font-size:clamp(1.3rem,7.5vw,2rem);margin-bottom:.4rem;}
   .panel-info p{font-size:.86rem;max-width:100%;opacity:.85;}
+  .scene-enter{min-height: 140px; display: flex; flex-direction: column; justify-content: flex-end;}
   .panel-progress{margin-top:.7rem;}
   .panel-dot{width:14px;}
   .panel-dot.active{width:26px;}
-  .clapper{width:clamp(190px, 55vw, 240px); margin-top: 4.5rem;}
-  .clapper-hint{font-size:.65rem; margin-bottom: .8rem; letter-spacing: .25em; opacity: 0.9;}
+  .clapper{width:clamp(190px, 55vw, 240px); margin-top: 5.5rem;}
+  .clapper-hint{font-size:.65rem; margin-top: 1.5rem; letter-spacing: .25em; opacity: 0.9;}
   .clapper-base{padding:.4rem .5rem;}
   .clapper-row span,.clapper-row b{font-size:.7rem;}
 
