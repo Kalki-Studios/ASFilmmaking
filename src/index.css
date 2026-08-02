@@ -1302,7 +1302,7 @@ footer::before {
   .hero-content h1{font-size:clamp(2.1rem,14vw,2.8rem);}
   .hero-sub{font-size:.85rem;}
   .filmstrip-frame{width:clamp(240px,92vw,320px);}
-  .clapper{width:clamp(95px,26vw,125px);}
+  .clapper{width:clamp(160px,45vw,200px);}
   .service-card{padding:1.2rem .9rem;}
   .panel-content{padding:1rem .75rem;}
   .about-stat b{font-size:1.5rem;}

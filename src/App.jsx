@@ -67,6 +67,25 @@ function App() {
           scrollTrigger: { trigger: el, start: 'top 88%' }
         });
       });
+
+      // Fade out global music when scrolling past DirectorCut
+      ScrollTrigger.create({
+        trigger: "#studio",
+        start: "top 60%",
+        onEnter: () => {
+          if (globalAudioRef.current && !globalAudioRef.current.paused) {
+            gsap.to(globalAudioRef.current, { volume: 0, duration: 1.5, onComplete: () => {
+              if (globalAudioRef.current.volume === 0) globalAudioRef.current.pause();
+            }});
+          }
+        },
+        onLeaveBack: () => {
+          if (globalAudioRef.current) {
+            globalAudioRef.current.play().catch(() => {});
+            gsap.to(globalAudioRef.current, { volume: 0.40, duration: 1.5 });
+          }
+        }
+      });
     });
 
     // IntersectionObserver for .reveal elements
