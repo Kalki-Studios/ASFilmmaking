@@ -480,12 +480,19 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
 }
 .filmstrip-section .section-head{margin-bottom:1.5rem;}
 .filmstrip-wrap {
-  position:relative;width:100%;overflow:hidden;
+  position:relative;width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  touch-action:pan-x; /* tell browser this scrolls horizontally — allows native touch scroll */
   cursor:grab;user-select:none;
   padding-block: 46px; /* space for sprockets and text */
   background: linear-gradient(180deg, #050505 0%, #111 15%, #111 85%, #050505 100%); /* Plastic film base */
   box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  /* Hide scrollbar visually but keep functional */
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
+.filmstrip-wrap::-webkit-scrollbar{display:none;}
 .filmstrip-wrap::after {
   content: '';
   position: absolute; inset: 0;
@@ -823,9 +830,9 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
   background-clip: text;
 }
 .whatsapp-btn {
-  background: #25D366;
+  background: #640912;
   color: #fff;
-  border: 1px solid #25D366;
+  border: 1px solid #640912;
   position: relative;
   overflow: hidden;
 }
@@ -887,16 +894,16 @@ footer::before {
 .wa-fab{
   position:fixed;bottom:1.6rem;right:1.6rem;z-index:150;
   width:58px;height:58px;border-radius:50%;
-  background:linear-gradient(135deg,#25d366,#128c5e);
+  background:linear-gradient(135deg,#7e0b16,#50070e);
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 12px 30px -8px rgba(37,211,102,.4);
+  box-shadow:0 12px 30px -8px rgba(100,9,18,.5);
   animation:fabPulse 3s ease-in-out infinite;
   transition:transform .3s var(--ease-spring);
 }
 .wa-fab:hover{transform:scale(1.12);}
 @keyframes fabPulse{
-  0%,100%{box-shadow:0 8px 24px -6px rgba(37,211,102,.4);}
-  50%{box-shadow:0 12px 36px -4px rgba(37,211,102,.7);}
+  0%,100%{box-shadow:0 8px 24px -6px rgba(100,9,18,.4);}
+  50%{box-shadow:0 12px 36px -4px rgba(100,9,18,.7);}
 }
 .wa-fab svg{width:28px;height:28px;}
 /* ===== SCROLL REVEAL ===== */

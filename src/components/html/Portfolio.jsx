@@ -180,25 +180,36 @@ export default function Portfolio() {
     };
   }, []);
 
-  /* ---- Drag / swipe handlers ---- */
-  const onPointerDown = useCallback((e) => {
+  /* ---- Mouse drag handlers (desktop only) ---- */
+  const onMouseDown = useCallback((e) => {
+    // Only activate for mouse, not touch
+    if (e.pointerType === 'touch') return;
     drag.current.active = true;
-    drag.current.startX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    drag.current.startX = e.clientX;
     drag.current.scrollLeft = wrapRef.current.scrollLeft;
     wrapRef.current.style.cursor = 'grabbing';
   }, []);
 
-  const onPointerMove = useCallback((e) => {
+  const onMouseMove = useCallback((e) => {
     if (!drag.current.active) return;
-    e.preventDefault();
-    const x = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    const x = e.clientX;
     const walk = (drag.current.startX - x) * 1.2;
     wrapRef.current.scrollLeft = drag.current.scrollLeft + walk;
   }, []);
 
-  const onPointerUp = useCallback(() => {
+  const onMouseUp = useCallback(() => {
     drag.current.active = false;
     if (wrapRef.current) wrapRef.current.style.cursor = 'grab';
+  }, []);
+
+  /* ---- Touch handlers: pause auto-scroll while user is swiping ---- */
+  const onTouchStart = useCallback(() => {
+    isHoveredRef.current = true; // pause auto-scroll during touch
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    // Resume auto-scroll after a short delay
+    setTimeout(() => { isHoveredRef.current = false; }, 2000);
   }, []);
 
   /* ---- Develop a frame (darkroom reveal) ---- */
@@ -248,12 +259,11 @@ export default function Portfolio() {
           style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
           onMouseEnter={() => isHoveredRef.current = true}
           onMouseLeave={() => { isHoveredRef.current = false; drag.current.active = false; if(wrapRef.current) wrapRef.current.style.cursor = 'grab'; }}
-          onMouseDown={onPointerDown}
-          onMouseMove={onPointerMove}
-          onMouseUp={onPointerUp}
-          onTouchStart={onPointerDown}
-          onTouchMove={onPointerMove}
-          onTouchEnd={onPointerUp}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
           {/* Sprocket holes — top */}
           <div className="sprocket-row top" aria-hidden="true">

@@ -24,7 +24,7 @@ export default function Footer() {
 
         <span className="footer-credit">
           © {new Date().getFullYear()} AS Filmmaking by Aniket
-          <span className="footer-signature">Designed by Kalki Web</span>
+          <span className="footer-signature">Designed by Kalki Studios</span>
         </span>
       </div>
     </footer>
