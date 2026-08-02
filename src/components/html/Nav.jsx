@@ -44,7 +44,6 @@ export default function Nav() {
           <a href="#studio" className={activeSection === 'studio' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Studio</a>
           <a href="#services" className={activeSection === 'services' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Services</a>
           <a href="#work" className={activeSection === 'work' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Work</a>
-          <a href="#contact" className="nav-cta" onClick={() => setMenuOpen(false)}>Check Availability</a>
         </div>
       </div>
     </nav>

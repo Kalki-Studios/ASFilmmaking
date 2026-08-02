@@ -1,4 +1,4 @@
-import { useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -15,10 +15,22 @@ import Contact from './components/html/Contact';
 import Footer from './components/html/Footer';
 import WhatsAppFab from './components/html/WhatsAppFab';
 import Scene3D from './components/canvas/Scene3D';
+import SplashScreen from './components/html/SplashScreen';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const ambientTracks = [
+  'https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3', 
+  'https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3', 
+  'https://cdn.pixabay.com/audio/2022/11/22/audio_febc508520.mp3', 
+  'https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3', 
+  'https://cdn.pixabay.com/audio/2022/11/22/audio_febc508520.mp3', 
+  'https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3', 
+];
+
 function App() {
+  const [hasEntered, setHasEntered] = useState(false);
+  const globalAudioRef = useRef(null);
   // Page Navigation Flash Logic
   useEffect(() => {
     const handleHashChange = () => {
@@ -78,9 +90,41 @@ function App() {
     };
   }, []);
 
+  // Global Audio Event Listener
+  useEffect(() => {
+    const handleChangeAmbient = (e) => {
+      if (!globalAudioRef.current) return;
+      const index = e.detail.index;
+      const a = globalAudioRef.current;
+      const newSrc = ambientTracks[index];
+      if (a.src !== newSrc) {
+        a.src = newSrc;
+      }
+      a.volume = 0.40;
+      a.play().catch(err => console.warn('Global audio blocked:', err));
+    };
+
+    window.addEventListener('change-ambient', handleChangeAmbient);
+    return () => window.removeEventListener('change-ambient', handleChangeAmbient);
+  }, []);
+
+  const handleEnter = () => {
+    setHasEntered(true);
+    if (globalAudioRef.current) {
+      globalAudioRef.current.src = ambientTracks[0];
+      globalAudioRef.current.volume = 0.40;
+      globalAudioRef.current.play().catch(e => console.warn('Initial play blocked:', e));
+    }
+  };
 
   return (
     <>
+      <audio ref={globalAudioRef} loop preload="none" />
+      
+      {!hasEntered && (
+        <SplashScreen tracks={ambientTracks} onEnter={handleEnter} />
+      )}
+      
       <div className="grain"></div>
       
       {/* 3D Canvas fixed in background */}

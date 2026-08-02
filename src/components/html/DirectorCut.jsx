@@ -24,24 +24,24 @@ export default function DirectorCut() {
 
       const t = ctx.currentTime;
 
-      // 1. Wooden Thud (Low frequency)
+      // 1. Light Thud (Mid-high frequency snap)
       const osc = ctx.createOscillator();
       const oscGain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(300, t);
-      osc.frequency.exponentialRampToValueAtTime(40, t + 0.1);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(800, t);
+      osc.frequency.exponentialRampToValueAtTime(100, t + 0.05);
       
       oscGain.gain.setValueAtTime(0, t);
-      oscGain.gain.linearRampToValueAtTime(0.25, t + 0.015);
-      oscGain.gain.exponentialRampToValueAtTime(0.01, t + 0.12);
+      oscGain.gain.linearRampToValueAtTime(0.1, t + 0.01);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
       
       osc.connect(oscGain);
       oscGain.connect(ctx.destination);
       osc.start(t);
-      osc.stop(t + 0.15);
+      osc.stop(t + 0.06);
 
-      // 2. The Crack/Smack (Filtered Noise)
-      const bufferSize = ctx.sampleRate * 0.1;
+      // 2. The Crisp Snap (Filtered Noise)
+      const bufferSize = ctx.sampleRate * 0.05;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
@@ -52,14 +52,13 @@ export default function DirectorCut() {
       noise.buffer = buffer;
       
       const noiseFilter = ctx.createBiquadFilter();
-      noiseFilter.type = 'bandpass';
-      noiseFilter.frequency.value = 1200;
-      noiseFilter.Q.value = 0.5;
+      noiseFilter.type = 'highpass';
+      noiseFilter.frequency.value = 2500;
       
       const noiseGain = ctx.createGain();
       noiseGain.gain.setValueAtTime(0, t);
-      noiseGain.gain.linearRampToValueAtTime(0.35, t + 0.015);
-      noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.12);
+      noiseGain.gain.linearRampToValueAtTime(0.2, t + 0.005);
+      noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.04);
       
       noise.connect(noiseFilter);
       noiseFilter.connect(noiseGain);
@@ -82,12 +81,16 @@ export default function DirectorCut() {
     window.dispatchEvent(new CustomEvent('scene-change', { detail: { index: nextIdx } }));
     setIdx(nextIdx);
     setTake(t => t + 1);
+
+    // Play next ambient track globally
+    window.dispatchEvent(new CustomEvent('change-ambient', { detail: { index: nextIdx } }));
   };
 
   const goTo = (i) => {
     if (i === idx) return;
     window.dispatchEvent(new CustomEvent('scene-change', { detail: { index: i } }));
     setIdx(i);
+    window.dispatchEvent(new CustomEvent('change-ambient', { detail: { index: i } }));
   };
 
   return (
