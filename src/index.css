@@ -1136,14 +1136,12 @@ footer::before {
   .filmstrip-wrap{
     cursor:default;
     overflow-x:auto;
-    scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch;
     padding-bottom:16px;
   }
   .filmstrip { padding-right: 2rem; }
   .filmstrip-frame{
-    width:clamp(160px,45vw,220px);
-    scroll-snap-align:center;
+    width:clamp(220px,65vw,320px);
   }
   
   .footer-inner{flex-direction:column;align-items:center;text-align:center;gap:2rem;}
@@ -1215,7 +1213,7 @@ footer::before {
   /* --- Filmstrip --- */
   .filmstrip-section{padding-block:2.5rem 0;}
   .filmstrip-section .section-head{padding:0;margin-bottom:1rem;}
-  .filmstrip-frame{width:clamp(140px,55vw,200px);}
+  .filmstrip-frame{width:clamp(260px,85vw,360px);}
   .filmstrip-label{font-size:.55rem;}
 
   /* --- Highlights --- */
@@ -1303,7 +1301,7 @@ footer::before {
   h2{font-size:clamp(1.55rem,10vw,2rem) !important;}
   .hero-content h1{font-size:clamp(2.1rem,14vw,2.8rem);}
   .hero-sub{font-size:.85rem;}
-  .filmstrip-frame{width:clamp(130px,65vw,175px);}
+  .filmstrip-frame{width:clamp(240px,92vw,320px);}
   .clapper{width:clamp(95px,26vw,125px);}
   .service-card{padding:1.2rem .9rem;}
   .panel-content{padding:1rem .75rem;}
