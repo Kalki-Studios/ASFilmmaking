@@ -6,9 +6,24 @@ export default function WhatsAppFab() {
   const [formData, setFormData] = useState({
     name: '',
     company: '',
+    email: '',
     mobile: '',
+    projectType: '',
+    eventDate: '',
+    location: '',
     message: ''
   });
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const projectTypes = [
+    "Wedding / Pre-Wedding",
+    "Commercial / Ad Film",
+    "Music Video",
+    "Corporate / Event",
+    "Documentary / Short Film",
+    "Product Photography",
+    "Other"
+  ];
 
   const handleShare = () => {
     setShowModal(true);
@@ -24,9 +39,24 @@ export default function WhatsAppFab() {
 
   const handleSend = (e) => {
     e.preventDefault();
-    const { name, company, mobile, message } = formData;
-    const subject = `Enquiry from ${name} ${company ? `(${company})` : ''}`;
-    const body = `Name: ${name}%0D%0ACompany: ${company}%0D%0AMobile: ${mobile}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+    const { name, company, email, mobile, projectType, eventDate, location, message } = formData;
+    const subject = `Enquiry from ${name} ${company ? `(${company})` : ''} - ${projectType || 'Project'}`;
+    
+    // Construct email body with all fields
+    const bodyText = [
+      `Name: ${name}`,
+      `Company: ${company || 'N/A'}`,
+      `Email: ${email || 'N/A'}`,
+      `Mobile: ${mobile}`,
+      `Project Type: ${projectType || 'N/A'}`,
+      `Event Date: ${eventDate || 'N/A'}`,
+      `Location: ${location || 'N/A'}`,
+      '',
+      'Message:',
+      message
+    ].join('\n');
+    
+    const body = encodeURIComponent(bodyText);
     window.location.href = `mailto:contact@asfilmmaking.com?subject=${encodeURIComponent(subject)}&body=${body}`;
     setShowModal(false);
   };
@@ -62,26 +92,74 @@ export default function WhatsAppFab() {
             <div className="contact-modal-header">
               <span className="contact-modal-label">CONTACT ASFILMMAKING</span>
               <h2>Share your details</h2>
-              <p>Enter your full name, company name, mobile number, and project message. Your email app will open with the enquiry prefilled for contact@asfilmmaking.com.</p>
+              <p>Tell us a bit about your project. Your email app will open with the enquiry prefilled for contact@asfilmmaking.com.</p>
             </div>
             <form className="contact-modal-form" onSubmit={handleSend}>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Full name</label>
+                  <label>Full name *</label>
                   <input type="text" name="name" placeholder="Your full name" required value={formData.name} onChange={handleChange} />
                 </div>
                 <div className="form-group">
-                  <label>Company name</label>
-                  <input type="text" name="company" placeholder="Company name" value={formData.company} onChange={handleChange} />
+                  <label>Company / Brand</label>
+                  <input type="text" name="company" placeholder="Company name (optional)" value={formData.company} onChange={handleChange} />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Email Address</label>
+                  <input type="email" name="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                  <label>Mobile number *</label>
+                  <input type="tel" name="mobile" placeholder="+91 98765 43210" required value={formData.mobile} onChange={handleChange} />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Project Type</label>
+                  <div className="custom-select-container">
+                    <div 
+                      className={`custom-select-trigger ${dropdownOpen ? 'open' : ''}`}
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                    >
+                      <span style={{ opacity: formData.projectType ? 1 : 0.6 }}>
+                        {formData.projectType || 'Select project type'}
+                      </span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                    {dropdownOpen && (
+                      <div className="custom-select-dropdown">
+                        {projectTypes.map((type) => (
+                          <div 
+                            key={type} 
+                            className={`custom-select-option ${formData.projectType === type ? 'selected' : ''}`}
+                            onClick={() => {
+                              setFormData({ ...formData, projectType: type });
+                              setDropdownOpen(false);
+                            }}
+                          >
+                            {type}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Event Date / Timeline</label>
+                  <input type="text" name="eventDate" placeholder="e.g., Oct 24, 2026 or Next Summer" value={formData.eventDate} onChange={handleChange} />
                 </div>
               </div>
               <div className="form-group">
-                <label>Mobile number</label>
-                <input type="tel" name="mobile" placeholder="+91 98765 43210" required value={formData.mobile} onChange={handleChange} />
+                <label>Location / Venue</label>
+                <input type="text" name="location" placeholder="City or specific venue" value={formData.location} onChange={handleChange} />
               </div>
               <div className="form-group">
-                <label>Message</label>
-                <textarea name="message" placeholder="Tell us about your project requirements." required value={formData.message} onChange={handleChange}></textarea>
+                <label>Message / Project Details *</label>
+                <textarea name="message" placeholder="Tell us about your project requirements, estimated budget, or any references." required value={formData.message} onChange={handleChange}></textarea>
               </div>
               <div className="form-footer">
                 <span className="contact-modal-note">You can also reach us directly at contact@asfilmmaking.com.</span>

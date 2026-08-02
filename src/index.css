@@ -327,6 +327,8 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
   background: #0f1623;
   width: 90%;
   max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
   border-radius: 16px;
   padding: 2.5rem;
   position: relative;
@@ -392,7 +394,8 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
   font-size: 0.85rem;
 }
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.custom-select-trigger {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
@@ -401,12 +404,58 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
   font-family: var(--font-body);
   font-size: 0.95rem;
   transition: all 0.3s ease;
+  width: 100%;
 }
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.custom-select-trigger.open {
   outline: none;
-  border-color: var(--gold);
+  border-color:var(--gold);
   background: rgba(255,255,255,0.05);
+}
+.custom-select-container {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.custom-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #0f1623;
+  border: 1px solid rgba(100, 9, 18, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  z-index: 10;
+  overflow: hidden;
+  animation: dropdownFade 0.2s ease;
+}
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.custom-select-option {
+  padding: 0.8rem 1rem;
+  color: var(--ash);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+.custom-select-option:hover {
+  background: rgba(100, 9, 18, 0.15);
+  color: #fff;
+}
+.custom-select-option.selected {
+  background: rgba(100, 9, 18, 0.3);
+  color: #fff;
+}
+input[type="date"] {
+  color-scheme: dark;
 }
 .form-group textarea {
   min-height: 120px;
@@ -423,8 +472,8 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
   font-size: 0.8rem;
 }
 .contact-modal-submit {
-  background: var(--gold);
-  color: #000;
+  background: rgba(100, 9, 18, 1.00);
+  color: #fff;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
@@ -432,7 +481,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;}
   transition: all 0.3s ease;
 }
 .contact-modal-submit:hover {
-  background: var(--gold-bright);
+  background: rgba(100, 9, 18, 0.9);
 }
 @media (max-width: 600px) {
   .form-row {
